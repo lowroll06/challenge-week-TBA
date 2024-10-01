@@ -1,4 +1,4 @@
-def start_game(day_limit_enabled=False, max_days=2):
+def start_game(dag_limiet=False, max_days=2):
     print("Je belandt op een eiland, het laatste wat je je kan herinneren is dat je op een cruiseship zat en van het leven aan het genieten was.")
     hp = 100
     day = 1  # De dag begint op 1
@@ -7,7 +7,7 @@ def start_game(day_limit_enabled=False, max_days=2):
         print(f"\nHet is dag {day} en je hebt {hp} HP.")
         
         # Controleer of de daglimiet is bereikt, als de limiet is ingeschakeld
-        if day_limit_enabled and day > max_days:
+        if dag_limiet and day > max_days:
             print(f"\nJe hebt het spel voltooid! Je hebt {max_days} dagen overleefd.")
             break
 
@@ -34,7 +34,7 @@ def start_game(day_limit_enabled=False, max_days=2):
                 print("Je hebt de nacht niet overleefd door de kou.")
                 break
 
-        # Dag 2 keuze
+        # dag 2
         elif day == 2:  # Gebruik elif zodat de code naar dag 2 gaat
             print("\nHet is tijd om actie te ondernemen. Je hebt de nacht overleefd, maar je moet meer doen om te blijven leven.")
             choice_day2 = input("Wat ga je doen? 1. Water zoeken of 2. Een betere schuilplaats bouwen?: ")
@@ -67,18 +67,20 @@ def start_game(day_limit_enabled=False, max_days=2):
                 print("Je hebt het niet overleefd.")
                 break
 
-        # Verhoog de dag
+        # dag verhoger
         day += 1
 
-    # Vraag na het verliezen of de speler opnieuw wil beginnen
+    # Als je hp op is
     if hp <= 0:
         print("Je HP is op. Je hebt het niet overleefd.")
         ask = input("Wil je opnieuw proberen? (ja/nee): ")
         if ask.lower() == "ja":
-            start_game(day_limit_enabled, max_days)
+            start_game(dag_limiet, max_days)
         else:
             print("Bedankt voor het spelen!")
-            
+
+
+# dag 1
 def gather_food(hp):
     choice_2 = input("\nJe gaat op zoek naar eten. Wat ga je doen? 1. Bessen verzamelen of 2. Jagen?: ")
     if choice_2 == "1":
@@ -96,11 +98,10 @@ def gather_food(hp):
             print("Typ 1 of 2 alsjeblieft.")
     else:
         print("Typ 1 of 2 alsjeblieft.")
-    
     return hp
 
-# Voorbeeld: Speel met een daglimiet van 3 dagen
-start_game(day_limit_enabled=True, max_days=2)
+# Hij stopt odm bij dag 2, of anders gaat de loop door en breekt de code. als we meer dagen gaan toevoegen, kunnen we hier het verhogen
+start_game(dag_limiet=True, max_days=2)
 
-# Als je de daglimiet uit wilt schakelen, gebruik je:
-# start_game(day_limit_enabled=False)
+# dag limiet uitschakelen? :
+# start_game(dag_limiet=False)
