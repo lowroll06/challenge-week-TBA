@@ -80,11 +80,7 @@ def start_game(dag_limiet=False, max_days=3): # hier ook dag verhogen
             elif tribe_choice == "1":
                     print("je vraagt het volk om hulp en helpen ze jou om een boot te bouwen. \n Het lukt je om weg te gaan van het eiland en hawaii te bereiken en leef je daar de rest van je leven")
             else:
-                print("unlocked secret ending")
-                    
-        
-        
-                    
+                print("unlocked secret ending")                
             
         # dag verhoger
         day += 1
