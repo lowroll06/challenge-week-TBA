@@ -1,72 +1,73 @@
-def start_game(dag_limiet=False, max_days=2):
-    print("Je belandt op een eiland, het laatste wat je je kan herinneren is dat je op een cruiseship zat en van het leven aan het genieten was.")
+import random
+
+def start_game(dag_limiet=False, max_days=2): # hier ook dag verhogen
+    print("je belandt je in een eiland, het laatste wat je je kan herinneren is dat je in cruiseship zat en van het leven zat te genieten.")
     hp = 100
     day = 1  # De dag begint op 1
-    
     while hp > 0:
-        print(f"\nHet is dag {day} en je hebt {hp} HP.")
+        print(f"\n Het is dag nummer {day} en je hebt {hp} HP.")
         
         # Controleer of de daglimiet is bereikt, als de limiet is ingeschakeld
         if dag_limiet and day > max_days:
             print(f"\nJe hebt het spel voltooid! Je hebt {max_days} dagen overleefd.")
             break
 
-        # Dag 1 keuze
+        # begin spel
         if day == 1:
             choice = input("\nJe kijkt om je heen en hebt al een tentje. Naar wat zoek je? 1. hout of 2. eten?: ")
             if choice == "1":
-                print("Je hebt hout gevonden en rust de rest van de dag.")
+                print("Je blijft warm en hebt de nacht overleeft.")
                 hp += 5  # Bonus voor het verzamelen van hout
             elif choice == "2":
                 hp = gather_food(hp)
             else:
                 print("Typ 1 of 2 alsjeblieft.")
             
-            # Nacht na dag 1
+            # dag 1.5
             print("\nDe nacht valt, je hoort vreemde geluiden en voelt de kou binnensluipen.")
             if choice == "1":
-                print("Gelukkig heb je een vuurtje gemaakt met het hout en blijf je warm.")
+                print("Gelukkig heb je een vuurtje gemaakt met het hout en blijf je warm, maar je bent hongerig en verliest conditie -5 HP.")
+                hp -= 10
             else:
-                print("Zonder hout heb je het koud. Je slaapt slecht en verliest 5 HP door de kou.")
-                hp -= 5
-            
+                print("Na je jacht besluit je om te gaan slapen, maar hoor je vreemde geluiden en heb je geen vuur en slaap je dus niet -10 HP")
+                hp -= 10
             if hp <= 0:
                 print("Je hebt de nacht niet overleefd door de kou.")
                 break
 
-        # dag 2
+        # dag 2 (Dit elif t/m break is een stuk code die we kunnen repeaten voor de latere dagen, dan kunnen we makkelijk de dagen nu maken. gewoon copy/paste)
         elif day == 2:  # Gebruik elif zodat de code naar dag 2 gaat
-            print("\nHet is tijd om actie te ondernemen. Je hebt de nacht overleefd, maar je moet meer doen om te blijven leven.")
-            choice_day2 = input("Wat ga je doen? 1. Water zoeken of 2. Een betere schuilplaats bouwen?: ")
+            print("Je besluit om het eiland te verkennen, ga je richting het oosten of westen.")
+            choice_day2 = input("1. Oost of 2. West?: ")
             
             if choice_day2 == "1":
-                print("Je gaat op zoek naar water.")
-                water_choice = input("Je vindt een rivier. Drink je het water direct? 1. Ja of 2. Nee, eerst koken: ")
+                water_choice = input("Je ziet een tempel en besluit om erin te gaan en vind een vreemd object, pak je het op of ga je verder de tempel verkennen 1. Oppakken of 2. Tempel Verder Verkennen: ")
                 if water_choice == "1":
-                    print("Je drinkt het water direct en krijgt een maaginfectie. -15 HP")
+                    print("Hier komt Random")
                     hp -= 15
                 elif water_choice == "2":
-                    print("Je kookt het water en drinkt het veilig op. +10 HP")
-                    hp += 10
+                    print("je laat het object en verkent de tempel verder en ziet twee deuren, welke kies je links of rechts?")
+                    door_choice = input("Kies een deur: 1. links of 2. rechts?: ")
+                    if door_choice == "1":
+                        print("Je hebt gekozen om de linkerdeur te nemen. Je vindt een kamer vol met materialen om een hulpsignaal te maken")
+                    elif door_choice == "2":
+                        print("Je hebt gekozen om de rechterdeur te nemen. Je bevindt een kamer vol met slangen en word vergiftigd -100 hp")
+                        hp -= 150
                 else:
                     print("Typ 1 of 2 alsjeblieft.")
                     
             elif choice_day2 == "2":
-                print("Je besluit een stevigere schuilplaats te bouwen.")
-                shelter_choice = input("Je hebt een idee. Bouw je 1. een hut van hout of 2. een hut van bladeren en takken?: ")
-                if shelter_choice == "1":
-                    print("Je bouwt een stevige hut van hout en voelt je veilig. +10 HP")
+                print("Je ontmoet een volk en zien ze jij als bedreiging, probeer je te communiceren of te vechten.")
+                tribe_choice = input("1. communiceren 2. vechten: ")
+                if tribe_choice == "1":
+                    print("Je laat zien dat je in vrede komt en verwelkomen ze jou, ze geven je kamer en overnacht. Je voelt je fris +10 HP")
                     hp += 10
-                elif shelter_choice == "2":
-                    print("Je bouwt een hut van bladeren en takken, maar deze biedt weinig bescherming tegen de elementen. -5 HP")
-                    hp -= 5
+                elif tribe_choice == "2":
+                    print("Je probeert te vechten, maar je word doodgeslagen -100 HP")
+                    hp -= 150
                 else:
                     print("Typ 1 of 2 alsjeblieft.")
-            
-            if hp <= 0:
-                print("Je hebt het niet overleefd.")
-                break
-
+            break # verwijder break om meer dagen te laten werken
         # dag verhoger
         day += 1
 
@@ -89,7 +90,7 @@ def gather_food(hp):
     elif choice_2 == "2":
         choice_3 = input("Maak je 1. een wapen of 2. jaag je met je handen?: ")
         if choice_3 == "1":
-            print("Je maakt een wapen en zoekt naar prooi.\nJe komt een beer tegen en breekt je wapen tijdens het gevecht. Je gaat dood. -100 HP")
+            print("Je komt een beer te gemoet en breekt je wapen tijdens het gevecht. Je bent dood. -100 HP")
             hp -= 100
         elif choice_3 == "2":
             print("Je besluit om met je handen te jagen en vangt een vis. +10 HP")
@@ -102,6 +103,3 @@ def gather_food(hp):
 
 # Hij stopt odm bij dag 2, of anders gaat de loop door en breekt de code. als we meer dagen gaan toevoegen, kunnen we hier het verhogen
 start_game(dag_limiet=True, max_days=2)
-
-# dag limiet uitschakelen? :
-# start_game(dag_limiet=False)
