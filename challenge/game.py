@@ -46,7 +46,6 @@ def start_game(dag_limiet=False, max_days=3): # hier ook dag verhogen
                 water_choice = input("Je ziet een tempel en besluit om erin te gaan en vind een vreemd object, pak je het op of ga je verder de tempel verkennen 1. Oppakken of 2. Tempel Verder Verkennen: ")
                 if water_choice == "1":
                     computer_choice(hp)
-                
                     hp -= 15
                 elif water_choice == "2":
                     print("je laat het object en verkent de tempel verder en ziet twee deuren, welke kies je links of rechts?")
