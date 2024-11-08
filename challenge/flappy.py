@@ -103,7 +103,7 @@ def game():
         pipes = [pipe for pipe in pipes if not pipe.off_screen()]
         for pipe in pipes:
             if pipe.rect.right < bird.rect.left and not hasattr(pipe, "passed"):
-                score += 1
+                score += 1 
                 pipe.passed = True
 
         # Draw the score
