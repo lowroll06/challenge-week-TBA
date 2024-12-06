@@ -20,8 +20,9 @@ player_image = pygame.image.load("img/char.png")
 enemy_image = pygame.image.load("img/enemyimg.png")
 laser_image = pygame.image.load("img/laser.gif")
 boss_image = pygame.image.load("img/boss.gif")
-boss_explosion_image = pygame.image.load("img/explosionboss.png"
-)
+boss_explosion_image = pygame.image.load("img/explosionboss.png")
+enemy_laser_image = pygame.image.load("img/laserenemy.png")
+
 
 # Load the boss explosion image
 boss_explosion_image = pygame.image.load("img/explosionboss.png").convert()
@@ -36,6 +37,8 @@ enemy_image = pygame.transform.scale(enemy_image, (50, 40))
 laser_image = pygame.transform.scale(laser_image, (5, 20))
 explosion_frames = [pygame.transform.scale(frame, (50, 50)) for frame in explosion_frames]
 boss_image = pygame.transform.scale(boss_image, (200, 150))  
+enemy_laser_image = pygame.transform.scale(enemy_laser_image, (10, 30))
+
 
 # Load sound effects
 laser_sound = pygame.mixer.Sound("img/lasersound2.mp3")  # Replace with actual path to your sound file
@@ -64,6 +67,10 @@ boss_health_bar_width = 200  # Maximum width of the health bar
 boss_health_bar_height = 15  # Height of the health bar
 boss_health_bar_color = (255, 0, 0)  # Red for the health
 boss_health_bar_border_color = WHITE  # Border color
+
+enemy_lasers = []
+enemy_laser_speed = 5  # Speed of enemy lasers
+enemy_laser_cooldown = 60  # Delay (in frames) between shots
 
 # Enemy settings
 enemy_width, enemy_height = 50, 40
@@ -383,9 +390,38 @@ def main_game():
             enemy_timer +=1.5
             laser_speed = 50
 
+        if score >= 15:
+            for enemy in enemies:
+                if random.randint(0, 100) < 2:  # 2% chance to shoot per frame
+                    enemy_lasers.append(pygame.Rect(
+                        enemy.x + enemy.width // 2 - enemy_laser_image.get_width() // 2, 
+                        enemy.y + enemy.height, 
+                        enemy_laser_image.get_width(), 
+                        enemy_laser_image.get_height()
+                    ))
+
         if score >= 20:
-            enemy_timer += 3
+            enemy_timer += 2
             laser_speed = 60
+        
+        for enemy_laser in enemy_lasers[:]:
+            enemy_laser.y += enemy_laser_speed
+            if enemy_laser.y > HEIGHT:  # Remove off-screen lasers
+                enemy_lasers.remove(enemy_laser)
+            else:
+                screen.blit(enemy_laser_image, (enemy_laser.x, enemy_laser.y))
+
+        player_rect = pygame.Rect(player_x, player_y, player_width, player_height)
+        for enemy_laser in enemy_lasers:
+            if enemy_laser.colliderect(player_rect):
+                show_menu("Game Over! You were hit by an enemy laser.")
+                return
+            
+        display_score(score)
+        display_time(remaining_time)
+
+        pygame.display.flip()
+
 
         # Update enemies
         for enemy in enemies[:]:
